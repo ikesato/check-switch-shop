@@ -1,11 +1,11 @@
 #!/usr/bin/env ruby
 # coding: utf-8
 $LOAD_PATH.push File.dirname(File.expand_path($0))
-require 'check_omni7'
+require 'omni7'
 require 'toysrus'
 
 shops = [
-  {crawler: CheckOmni7.new, name: "オムニ7"},
+  {crawler: Omni7.new, name: "オムニ7"},
   {crawler: Toysrus.new, name: "トイザラス"},
 ]
 

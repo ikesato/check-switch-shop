@@ -2,7 +2,7 @@
 require 'open-uri'
 require 'nokogiri'
 
-class CheckOmni7
+class Omni7
   URL = "http://7net.omni7.jp/general/010007/170121switch"
   def check
     charset = nil
