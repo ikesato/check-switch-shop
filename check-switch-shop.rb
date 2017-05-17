@@ -7,6 +7,7 @@ require 'amazon'
 require 'rakuten_books'
 require 'yamada'
 require 'ito_yokado'
+require 'nojima'
 
 shops = [
   {crawler: Omni7.new,        name: "オムニ7"},
@@ -15,6 +16,7 @@ shops = [
   {crawler: RakutenBooks.new, name: "楽天ブックス"},
   {crawler: Yamada.new,       name: "ヤマダ"},
   {crawler: ItoYokado.new,    name: "イトーヨーカドー"},
+  {crawler: Nojima.new,       name: "ノジマ"},
 ]
 
 errors = []
