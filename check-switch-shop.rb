@@ -4,11 +4,13 @@ $LOAD_PATH.push File.dirname(File.expand_path($0))
 require 'omni7'
 require 'toysrus'
 require 'amazon'
+require 'rakuten_books'
 
 shops = [
-  {crawler: Omni7.new,   name: "オムニ7"},
-  {crawler: Toysrus.new, name: "トイザラス"},
-  {crawler: Amazon.new,  name: "Amazon"},
+  {crawler: Omni7.new,        name: "オムニ7"},
+  {crawler: Toysrus.new,      name: "トイザラス"},
+  {crawler: Amazon.new,       name: "Amazon"},
+  {crawler: RakutenBooks.new, name: "楽天ブックス"},
 ]
 
 availables = shops.map do |s|
