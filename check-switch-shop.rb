@@ -17,10 +17,23 @@ shops = [
   {crawler: ItoYokado.new,    name: "イトーヨーカドー"},
 ]
 
+errors = []
 availables = shops.map do |s|
-  r = s[:crawler].check
-  r ? {detail: r, name: s[:name]} : nil
+  begin
+    r = s[:crawler].check
+    r ? {detail: r, name: s[:name]} : nil
+  rescue => ex
+    errors << ex
+    nil
+  end
 end.compact
+
+errors.each do |ex|
+  STDERR.puts ex
+  STDERR.puts ex.backtrace
+  STDERR.puts ""
+end
+
 
 if availables.length > 0
   text = ["販売中！急げ！", ""]
