@@ -6,6 +6,7 @@ require 'toysrus'
 require 'amazon'
 require 'rakuten_books'
 require 'yamada'
+require 'ito_yokado'
 
 shops = [
   {crawler: Omni7.new,        name: "オムニ7"},
@@ -13,6 +14,7 @@ shops = [
   {crawler: Amazon.new,       name: "Amazon"},
   {crawler: RakutenBooks.new, name: "楽天ブックス"},
   {crawler: Yamada.new,       name: "ヤマダ"},
+  {crawler: ItoYokado.new,    name: "イトーヨーカドー"},
 ]
 
 availables = shops.map do |s|
