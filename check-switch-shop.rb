@@ -1,6 +1,7 @@
 #!/usr/bin/env ruby
 # coding: utf-8
 $LOAD_PATH.push File.dirname(File.expand_path($0))
+require 'optparse'
 require 'omni7'
 require 'toysrus'
 require 'amazon'
@@ -8,6 +9,17 @@ require 'rakuten_books'
 require 'yamada'
 require 'ito_yokado'
 require 'nojima'
+
+exfile=nil
+OptionParser.new do |opt|
+  opt.banner = "Usage: check-switch-shop.rb [options]"
+  opt.separator ""
+  opt.separator "Specific options:"
+  opt.on("-e", "--exception-file=FILE") {|v|
+    exfile = v
+  }
+  opt.parse!(ARGV)
+end
 
 shops = [
   {crawler: Omni7.new,        name: "オムニ7"},
@@ -25,17 +37,28 @@ availables = shops.map do |s|
     r = s[:crawler].check
     r ? {detail: r, name: s[:name]} : nil
   rescue => ex
-    errors << ex
+    errors << {name: s[:name], ex: ex}
     nil
   end
 end.compact
 
-errors.each do |ex|
-  STDERR.puts ex
-  STDERR.puts ex.backtrace
-  STDERR.puts ""
-end
+#errors.delete_if do |h|
+#  h[:name] == "Amazon" &&
+#  h[:ex].class == OpenURI::HTTPError &&
+#  h[:ex].to_s == "503 Service Unavailable"
+#end
 
+exf = exfile ? File.open(exfile, "a") : STDERR
+errors.each do |h|
+  name = h[:name]
+  ex = h[:ex]
+  exf.puts Time.now.to_s
+  exf.puts name
+  exf.puts ex
+  exf.puts ex.backtrace
+  exf.puts ""
+end
+exf.close
 
 if availables.length > 0
   text = ["販売中！急げ！", ""]
