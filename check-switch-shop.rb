@@ -9,6 +9,7 @@ require 'rakuten_books'
 require 'yamada'
 require 'ito_yokado'
 require 'nojima'
+require 'joshin'
 
 exfile=nil
 OptionParser.new do |opt|
@@ -29,6 +30,7 @@ shops = [
   {crawler: Yamada.new,       name: "ヤマダ"},
   {crawler: ItoYokado.new,    name: "イトーヨーカドー"},
   {crawler: Nojima.new,       name: "ノジマ"},
+  {crawler: Joshin.new,       name: "ジョーシン"},
 ]
 
 errors = []
