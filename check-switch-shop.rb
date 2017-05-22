@@ -35,6 +35,7 @@ shops = [
   {crawler: Joshin.new,       name: "ジョーシン"},
   {crawler: Yodobashi.new,    name: "ヨドバシ"},
   {crawler: Hmv.new,          name: "ローチケHMV"},
+  {crawler: Amiami.new,       name: "あみあみ"},
 ]
 
 errors = []
