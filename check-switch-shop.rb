@@ -12,6 +12,7 @@ require 'nojima'
 require 'joshin'
 require 'yodobashi'
 require 'hmv'
+require 'amiami'
 
 exfile=nil
 OptionParser.new do |opt|
