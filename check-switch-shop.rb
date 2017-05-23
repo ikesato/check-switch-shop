@@ -52,11 +52,15 @@ end
 errors = []
 availables = shops.map do |s|
   begin
-    fname = File.join(htmloutdir, "#{s[:crawler].class.name.downcase}-#{Time.now.strftime("%Y%m%d-%H%M%S")}.html")
-    fp = File.open(fname, "w")
+    if htmloutdir
+      fname = File.join(htmloutdir, "#{s[:crawler].class.name.downcase}-#{Time.now.strftime("%Y%m%d-%H%M%S")}.html")
+      fp = File.open(fname, "w")
+    end
     r = s[:crawler].check(fp)
-    fp.close
-    system("gzip #{fname}")
+    if htmloutdir
+      fp.close
+      system("gzip #{fname}")
+    end
     r ? {detail: r, name: s[:name]} : nil
   rescue => ex
     errors << {name: s[:name], ex: ex}
