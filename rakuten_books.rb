@@ -4,12 +4,13 @@ require 'nokogiri'
 
 class RakutenBooks
   URL = "http://books.rakuten.co.jp/search/nm?cy=0&e=0&h=30&mt=0&o=0&f=A&s=1&g=006514001&spv=2&sitem=Nintendo+Switch+Joy-Con&v=2&sv=30&user_id=&scid=af_pc_etc&sc2id=353001532"
-  def check
+  def check(htmlfp=nil)
     charset = nil
     html = open(URL) do |f|
       charset = f.charset
       f.read
     end
+    htmlfp.write(html) if htmlfp
     doc = Nokogiri::HTML.parse(html, nil, charset)
 
     items = doc.css(".rbcomp__item-list__item").map do |d|

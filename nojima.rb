@@ -4,12 +4,13 @@ require 'nokogiri'
 
 class Nojima
   URL = "https://online.nojima.co.jp/category/10006903/?searchCategoryCode=10006903&mode=image&pageSize=15&currentPage=1&alignmentSequence=1&searchDispFlg=true&attributeValue=0_5"
-  def check
+  def check(htmlfp=nil)
     charset = nil
     html = open(URL) do |f|
       charset = "UTF-8"
       f.read
     end
+    htmlfp.write(html) if htmlfp
     doc = Nokogiri::HTML.parse(html, nil, charset)
 
     items = doc.css(".shouhinlist").map do |d|

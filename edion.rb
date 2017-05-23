@@ -4,12 +4,13 @@ require 'nokogiri'
 
 class Edion
   URL = "https://www.edion.com/item_list.html?keyword=Nintendo+Switch"
-  def check
+  def check(htmlfp=nil)
     charset = nil
     html = open(URL) do |f|
       charset = f.charset
       f.read
     end
+    htmlfp.write(html) if htmlfp
     doc = Nokogiri::HTML.parse(html, nil, charset)
 
     items = doc.css("#resultBox>ul>li").map do |d|

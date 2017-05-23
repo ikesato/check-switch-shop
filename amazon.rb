@@ -4,12 +4,13 @@ require 'nokogiri'
 
 class Amazon
   URL = "https://www.amazon.co.jp/b//ref=as_li_ss_tl?ie=UTF8&node=4731379051&linkCode=ll2&tag=vrinfo-22&linkId=ebf436d903ca774e58ecfd6f0bde9d94"
-  def check
+  def check(htmlfp=nil)
     charset = nil
     html = open(URL) do |f|
       charset = f.charset
       f.read
     end
+    htmlfp.write(html) if htmlfp
     doc = Nokogiri::HTML.parse(html, nil, charset)
 
     items = doc.css(".s-result-item").map do |d|

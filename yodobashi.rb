@@ -4,12 +4,13 @@ require 'nokogiri'
 
 class Yodobashi
   URL = "http://www.yodobashi.com/?word=Nintendo+Switch+%E6%9C%AC%E4%BD%93"
-  def check
+  def check(htmlfp=nil)
     charset = nil
     html = open(URL) do |f|
       charset = f.charset
       f.read
     end
+    htmlfp.write(html) if htmlfp
     doc = Nokogiri::HTML.parse(html, nil, charset)
 
     items = doc.css("div[data-salesinformationcode]").map do |d|

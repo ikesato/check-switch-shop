@@ -4,12 +4,13 @@ require 'nokogiri'
 
 class Joshin
   URL = "http://joshinweb.jp/game/40519.html"
-  def check
+  def check(htmlfp=nil)
     charset = nil
     html = open(URL) do |f|
       charset = "Shift_JIS"
       f.read
     end
+    htmlfp.write(html) if htmlfp
     doc = Nokogiri::HTML.parse(html, nil, charset)
 
     items = doc.css("table").map do |d|

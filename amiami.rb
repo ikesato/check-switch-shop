@@ -8,9 +8,9 @@ class Amiami
           "http://www.amiami.jp/top/detail/detail?gcode=GAME-0017599", # neon
           "http://www.amiami.jp/top/detail/detail?gcode=GAME-0017598", # gray
          ]
-  def check
+  def check(htmlfp=nil)
     items = URLS.map do |url|
-      check_one(url)
+      check_one(url, htmlfp)
     end.compact
 
     return nil if items.empty?
@@ -19,11 +19,16 @@ class Amiami
     end
   end
 
-  def check_one(url)
+  def check_one(url, htmlfp=nil)
     charset = nil
     html = open(url) do |f|
       charset = f.charset
       f.read
+    end
+    if htmlfp
+      htmlfp.puts("-----------------------------------------------------------------------")
+      htmlfp.puts("URL => #{url}")
+      htmlfp.write(html)
     end
     doc = Nokogiri::HTML.parse(html, nil, charset)
 

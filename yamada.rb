@@ -4,12 +4,13 @@ require 'nokogiri'
 
 class Yamada
   URL = "http://www.yamada-denkiweb.com/category/108/001/009/"
-  def check
+  def check(htmlfp=nil)
     charset = nil
     html = open(URL) do |f|
       charset = "UTF-8"
       f.read
     end
+    htmlfp.write(html) if htmlfp
     doc = Nokogiri::HTML.parse(html, nil, charset)
 
     items = doc.css(".item-wrapper").map do |d|

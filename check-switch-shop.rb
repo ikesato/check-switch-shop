@@ -16,12 +16,16 @@ require 'amiami'
 require 'edion'
 
 exfile=nil
+htmloutdir=nil
 OptionParser.new do |opt|
   opt.banner = "Usage: check-switch-shop.rb [options]"
   opt.separator ""
   opt.separator "Specific options:"
   opt.on("-e", "--exception-file=FILE") {|v|
     exfile = v
+  }
+  opt.on("-H", "--html-output-dir=DIR") {|v|
+    htmloutdir = v
   }
   opt.parse!(ARGV)
 end
@@ -41,10 +45,18 @@ shops = [
   {crawler: Edion.new,        name: "Edion"},
 ]
 
+if htmloutdir
+  Dir.mkdir(htmloutdir) unless Dir.exists?(htmloutdir)
+end
+
 errors = []
 availables = shops.map do |s|
   begin
-    r = s[:crawler].check
+    fname = File.join(htmloutdir, "#{s[:crawler].class.name.downcase}-#{Time.now.strftime("%Y%m%d-%H%M%S")}.html")
+    fp = File.open(fname, "w")
+    r = s[:crawler].check(fp)
+    fp.close
+    system("gzip #{fname}")
     r ? {detail: r, name: s[:name]} : nil
   rescue => ex
     errors << {name: s[:name], ex: ex}

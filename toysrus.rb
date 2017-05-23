@@ -4,12 +4,13 @@ require 'nokogiri'
 
 class Toysrus
   URL = "https://www.toysrus.co.jp/c001060015010/"
-  def check
+  def check(htmlfp=nil)
     charset = nil
     html = open(URL) do |f|
       charset = f.charset
       f.read
     end
+    htmlfp.write(html) if htmlfp
     doc = Nokogiri::HTML.parse(html, nil, charset)
 
     items = doc.css(".sub-category-items").map do |d|
