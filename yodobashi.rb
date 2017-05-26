@@ -20,7 +20,7 @@ class Yodobashi
       pn = price.gsub(/[￥,]/,"").strip.to_i
       next nil if pn < 29000  #税抜きより低かったら違う商品
       next nil if pn >= 34000 #この値段より高いなら転売屋か Splatool2 セット
-      available = (d.css("span.gray").text !~ /販売休止中です/)
+      available = (d.css("span.gray").text !~ /販売休止中です|予定数の販売を終了しました/)
       if name.empty? || price.empty? || !available
         nil
       else
