@@ -18,6 +18,9 @@ class Omni7
       available = (b.text != "SOLD OUT")
       name = d.css(".txtL").text
       price = d.css(".txtM").text
+      pn = price.gsub(/販売価格|:|,/,"").strip.to_i
+      next nil if pn < 29000  #税抜きより低かったら違う商品
+      next nil if pn >= 34000 #この値段より高いなら保証込みのいらないやつ
       if name.empty? || price.empty? || b.nil?
         nil
       else
