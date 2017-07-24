@@ -6,9 +6,15 @@ class Yamada
   URL = "http://www.yamada-denkiweb.com/category/108/001/009/"
   def check(htmlfp=nil)
     charset = nil
-    html = open(URL) do |f|
-      charset = "UTF-8"
-      f.read
+    html = nil
+    begin
+      html = open(URL) do |f|
+        charset = "UTF-8"
+        f.read
+      end
+    rescue OpenURI::HTTPError => e
+      return nil if e.message == "404 Not Found"
+      throw e
     end
     htmlfp.write(html) if htmlfp
     doc = Nokogiri::HTML.parse(html, nil, charset)
